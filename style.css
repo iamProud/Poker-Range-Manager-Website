@@ -1,0 +1,138 @@
+/*Layout*/
+header {
+  padding: 10px;
+  height: 25px;
+}
+
+h2{
+  position: absolute;
+  left: 30px;
+  top: -12px;
+  color: #40addb;
+}
+
+#optionsButton{
+  position: relative;
+  left: 27px;
+  margin: 3px;
+}
+
+#sidebar{
+  position: fixed;
+  height: 100%;
+  margin: 0px;
+  width: 160px;
+}
+
+ul{
+  list-style-type: none;
+}
+
+body{
+  margin:0;
+}
+
+#optionsContent{
+  display: none;
+}
+
+
+#frequency{
+  height: 75vh;
+}
+
+#frequencyLabel{
+  width: 40px;
+  text-align: center;
+}
+
+.mainContainer{
+  min-height: 100%;
+}
+
+.interfaceViewbox {
+  display: grid;
+  grid-gap: 3px;
+  float: left;
+  margin-left: 30px;
+  width: 70vh;
+  height: 90vh;
+}
+
+.rangeHeader {
+  grid-column: 1 / -1;
+  min-height: 10vh;
+}
+
+.frequencyContainer{
+  display: inline-grid;
+  align-content: center;
+  height: 90vh;
+}
+
+.rangeTextfields{
+  width: 40vw;
+}
+
+.textfieldContainer {
+  display: inline-grid;
+  float: right;
+  max-width: 40vw;
+  margin-right: 30vw;
+}
+
+footer {
+  clear: both;
+}
+
+/*Style*/
+header{
+  background-color: #5c5c5e;
+}
+
+body{
+  background-color: #777;
+  font-family: arial, sans-serif;
+}
+
+.interfaceViewbox{
+  background-color: #2c3e50;
+}
+
+.rangeHeader{
+  background-color: #d6dbdf;
+  text-align: center;
+}
+
+.positionLabel{
+  background-color: #2980b9;
+  text-align: center;
+}
+
+.cardsLabel{
+  text-align: center;
+}
+
+.positionButton{
+  background: #85929e;
+  grid-column: auto;
+  text-align: center;
+  border: none;
+}
+
+.positionButton:hover {
+  background-color: gray;
+}
+
+.cardsLabel{
+  background-color: #2980b9;
+}
+
+.cardsButton{
+  border: none;   
+  background: #2a2a2e;
+}
+
+#frequencyLabel{
+  text-align: center;
+}
