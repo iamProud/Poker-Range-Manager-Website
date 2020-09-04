@@ -178,13 +178,27 @@ $(document).ready(function () {
         label = document.createElement("div");
         if (labelType == "positionLabel") {
             label.className = labelType;
-            label.innerHTML = labelText;
+            p = document.createElement("p");
+            div = centerDiv();
+            label.appendChild(div);
+            div.appendChild(p);
+            p.innerHTML = labelText;
         } else {
             label.className = labelType;
             label.style.display = "none";
-            label.innerHTML = labelText;
+            p = document.createElement("p");
+            div = centerDiv();
+            label.appendChild(div);
+            div.appendChild(p);;
+            p.innerHTML = labelText;
         }
         interfaceViewbox.appendChild(label);
+    }
+
+    function centerDiv(){
+        div = document.createElement("div");
+        div.className = "certerText";
+        return div;
     }
 
     function createPositionInterface(numPlayer) {
@@ -262,7 +276,7 @@ $(document).ready(function () {
     //+++++++++++++++++++++++++++//
     function getActionID_getRange_ajax(userID, rangeName, stacksize, rangeTitle) {
         $.ajax({
-            url: "getactionid.php",
+            url: "./php/getactionid.php",
             data: { userID: userID, rangeName: rangeName, stacksize: stacksize, action: rangeTitle },
             dataType: 'JSON',
             type: "POST",
@@ -285,7 +299,7 @@ $(document).ready(function () {
 
     function getRange_ajax(actionID) {
         $.ajax({
-            url: "getData.php",
+            url: "./php/getData.php",
             data: { actionID: JSON.stringify(actionID) },
             dataType: 'JSON',
             type: "POST",
@@ -309,7 +323,7 @@ $(document).ready(function () {
 
     function getActionID_sendRange_ajax(userID, rangeName, stacksize, rangeTitle, handsArray) {
         $.ajax({
-            url: "getactionid.php",
+            url: "./php/getactionid.php",
             data: { userID: userID, rangeName: rangeName, stacksize: stacksize, action: rangeTitle },
             dataType: 'JSON',
             type: "POST",
@@ -324,7 +338,7 @@ $(document).ready(function () {
 
     function sendRange_ajax(actionID, handsArray) {
         $.ajax({
-            url: "sendData.php",
+            url: "./php/sendData.php",
             data: { handsArray: JSON.stringify(handsArray), actionID: JSON.stringify(actionID) },
             datatype: "json",
             type: "POST",

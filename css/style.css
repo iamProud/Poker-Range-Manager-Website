@@ -57,11 +57,14 @@ body{
   margin-left: 30px;
   width: 70vh;
   height: 90vh;
+  border-radius: 10px;
 }
 
 .rangeHeader {
   grid-column: 1 / -1;
   min-height: 10vh;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
 }
 
 .frequencyContainer{
@@ -106,11 +109,22 @@ body{
 
 .positionLabel{
   background-color: #2980b9;
-  text-align: center;
+  border-radius: 5px;
+  position: relative;
 }
 
 .cardsLabel{
-  text-align: center;
+  position: relative;
+  border-radius: 3px;
+}
+
+.certerText{
+  position: absolute;
+  margin: 0;
+  top: 50%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
 }
 
 .positionButton{
@@ -118,6 +132,7 @@ body{
   grid-column: auto;
   text-align: center;
   border: none;
+  border-radius: 5px;
 }
 
 .positionButton:hover {
@@ -131,6 +146,7 @@ body{
 .cardsButton{
   border: none;   
   background: #2a2a2e;
+  border-radius: 3px;
 }
 
 #frequencyLabel{
