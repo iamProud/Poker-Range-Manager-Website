@@ -23,12 +23,15 @@
           if( is_null($handsArray[$i]) ){
             continue;
           }
-          foreach($action_id AS $action){
-            if($action->color == $handsArray[$i]->color){
-              $new_hand = array('ID' => $action->action_id, 'CARD' => $handsArray[$i]->card, 'FREQ' => $handsArray[$i]->frequency);
-              $stmt->execute($new_hand);
+          foreach($handsArray[$i] as $hand){
+            foreach($action_id AS $action){
+              if($action->color == $hand->color){
+                $new_hand = array('ID' => $action->action_id, 'CARD' => $hand->card, 'FREQ' => $hand->frequency);
+                $stmt->execute($new_hand);
+              }
             }
           }
+
         }
     }
 

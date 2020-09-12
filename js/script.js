@@ -13,10 +13,14 @@ $(document).ready(function () {
             this.classList.toggle("active");
             optionsContent = this.nextElementSibling;
 
-            if (optionsContent.style.display === "inline") {
+            if (optionsContent.style.display === "block") {
                 optionsContent.style.display = "none";
+                document.getElementById("sidebar").style.width = "80px";
+                document.getElementsByClassName("mainContainer")[0].style.marginLeft = "80px";
             } else {
-                optionsContent.style.display = "inline";
+                optionsContent.style.display = "block";
+                document.getElementById("sidebar").style.width = "200px";
+                document.getElementsByClassName("mainContainer")[0].style.marginLeft = "200px";
             }
         });
     }
@@ -151,6 +155,12 @@ $(document).ready(function () {
             button.name = name;
             button.className = buttonType;
             interfaceViewbox.appendChild(button);
+            button.onmouseover = function () {
+                mouseOverPosition(name);
+            }
+            button.onmouseout = function () {
+                mouseOutPosition(name);
+            }
         } else if (buttonType == "cardsButton") {
             button.className = buttonType;
             button.style.display = "none";
@@ -174,6 +184,16 @@ $(document).ready(function () {
         document.getElementById("handHeadline").innerHTML = "";
     }
 
+    function mouseOverPosition(range) {
+        rangeHeadline.innerHTML = range;
+        //rangeHeadline.style.visibility = "visible";
+    }
+
+    function mouseOutPosition(range) {
+        currentRange = range;
+        //rangeHeadline.style.visibility = "hidden";
+    }
+
     function createLabel(labelType, labelText) {
         label = document.createElement("div");
         if (labelType == "positionLabel") {
@@ -195,15 +215,18 @@ $(document).ready(function () {
         interfaceViewbox.appendChild(label);
     }
 
-    function centerDiv(){
+    function centerDiv() {
         div = document.createElement("div");
-        div.className = "certerText";
+        div.className = "centerText";
         return div;
     }
 
     function createPositionInterface(numPlayer) {
         offset = 8 - numPlayer;
         positionArray = ["UTG", "UTG+1", "UTG+2", "MP", "HJ", "CO", "BTN", "SB", "BB"];
+
+        interfaceViewbox.style.gridTemplateColumns = "repeat(" + (numPlayer + 1).toString() + ", 1fr)";
+        interfaceViewbox.style.gridTemplateRows = "10vh repeat(" + (numPlayer + 2).toString() + ", 1fr)";
 
         for (i = 0; i <= numPlayer + 1; i++) { //row
             for (j = 0; j <= numPlayer; j++) { //column
@@ -310,7 +333,11 @@ $(document).ready(function () {
                 for (i = 0; i < loadedRange.length; i++) {
                     for (j = 0; j < loadedRange[i].length; j++) {
                         newHand = new Hand(Number(loadedRange[i][j].card), Number(loadedRange[i][j].frequency), loadedRange[i][j].color);
-                        handsArray[newHand.card] = [newHand];
+                        if(handsArray[newHand.card] == null){
+                            handsArray[newHand.card] = [newHand];
+                        }else{
+                            handsArray[newHand.card].push(newHand);
+                        }
                     }
                 }
                 handsArray.forEach(colorHand);
@@ -354,18 +381,20 @@ $(document).ready(function () {
     function showRange(numCards, rangeTitle) {
         positionHTMLcollection = document.querySelectorAll(".positionLabel, .positionButton");
         numberOfCardColumns = numCards + 1;
-        numberOfCardRows = numCards + 2;
+        numberOfCardRows = numCards + 1;
         rangeButtonsArray = document.getElementsByClassName("cardsButton");
         rangeLabelsArray = document.getElementsByClassName("cardsLabel");
         rangeHeadline = document.getElementById("rangeHeadline");
-        currentRange = rangeTitle;
+        document.getElementsByClassName("frequencyContainer")[0].style.display = "inline-grid";
 
         // switch Templates
         interfaceViewbox.style.gridTemplateColumns = "repeat(" + numberOfCardColumns.toString() + ", 1fr)";
-        interfaceViewbox.style.gridTemplateRows = "repeat(" + numberOfCardRows.toString() + ", 1fr)";
+        interfaceViewbox.style.gridTemplateRows = "calc(90vh - 70vh) repeat(" + numberOfCardRows.toString() + ", 1fr)";
+        interfaceViewbox.style.gridGap = "1px";
 
         //Show rangeHeadline
         rangeHeadline.innerHTML = rangeTitle;
+        //rangeHeadline.style.visibility = "visible";
 
         // hide positionLabel and positionButton
         for (i = 0; i < positionHTMLcollection.length; i++) {
@@ -374,11 +403,11 @@ $(document).ready(function () {
 
         // show Range
         for (j = 0; j < rangeLabelsArray.length; j++) {
-            rangeLabelsArray[j].style.display = "inline";
+            rangeLabelsArray[j].style.display = "block";
         }
 
         for (j = 0; j < rangeButtonsArray.length; j++) {
-            rangeButtonsArray[j].style.display = "inline";
+            rangeButtonsArray[j].style.display = "block";
         }
 
         getActionID_getRange_ajax(userID, rangeName, stacksize, rangeTitle);
@@ -388,20 +417,22 @@ $(document).ready(function () {
     function hideRange(numPlayer, handsArray) {
         positionHTMLcollection = document.querySelectorAll(".positionLabel, .positionButton");
         numberOfPlayerColumns = numPlayer + 1;
-        numberOfPlayerRows = numPlayer + 3;
+        numberOfPlayerRows = numPlayer + 2;
         rangeButtonsArray = document.getElementsByClassName("cardsButton");
         rangeLabelsArray = document.getElementsByClassName("cardsLabel");
         rangeHeadline = document.getElementById("rangeHeadline");
+        document.getElementsByClassName("frequencyContainer")[0].style.display = "none";
 
         // switch Templates
         interfaceViewbox.style.gridTemplateColumns = "repeat(" + numberOfPlayerColumns.toString() + ", 1fr)";
-        interfaceViewbox.style.gridTemplateRows = "repeat(" + numberOfPlayerRows.toString() + ", 1fr)";
-        rangeTitle = rangeHeadline.innerHTML;
+        interfaceViewbox.style.gridTemplateRows = "10vh repeat(" + numberOfPlayerRows.toString() + ", 1fr)";
+        interfaceViewbox.style.gridGap = "3px";
+        currentRange = rangeHeadline.innerHTML;
 
 
         // show  positionLabel and positionButton
         for (i = 0; i < positionHTMLcollection.length; i++) {
-            positionHTMLcollection[i].style.display = "inline";
+            positionHTMLcollection[i].style.display = "block";
         }
 
         // hide Range
@@ -413,7 +444,7 @@ $(document).ready(function () {
         }
 
         // send Data to Server
-        getActionID_sendRange_ajax(userID, rangeName, stacksize, rangeTitle, handsArray);
+        getActionID_sendRange_ajax(userID, rangeName, stacksize, currentRange, handsArray);
 
         clearRange();
     }
@@ -518,7 +549,7 @@ $(document).ready(function () {
         }
     }
 
-    function checkFrequency(handsUnsorted, newHand){
+    function checkFrequency(handsUnsorted, newHand) {
         sumFrequencys = 0;
         for (k = 0; k < handsUnsorted.length; k++) {
             sumFrequencys += Number(handsUnsorted[k].frequency);
@@ -566,14 +597,14 @@ $(document).ready(function () {
         gradientWidth = Number(handsSubArray[0].frequency);
 
         for (i = 0; i < handsSubArray.length - 1; i++) {
-            colorString += ', ' + handsSubArray[i].color + ' ' + gradientWidth + '%, ' + handsSubArray[i +1].color + ' ' + gradientWidth + '%';
+            colorString += ', ' + handsSubArray[i].color + ' ' + gradientWidth + '%, ' + handsSubArray[i + 1].color + ' ' + gradientWidth + '%';
             gradientWidth += Number(handsSubArray[i + 1].frequency);
         }
         colorString += ', ' + handsSubArray[handsSubArray.length - 1].color + ' ' + gradientWidth + '%, ' + colorFoldHand + ' ' + gradientWidth + '%)';
         return colorString;
     }
 
-    function colorHand(hand, handIndex){
+    function colorHand(hand, handIndex) {
         if (hand == null) {
             cardsButtonHTMLcollection[handIndex].style.background = colorFoldHand;
         } else {
@@ -593,6 +624,7 @@ $(document).ready(function () {
             return cardsArray[secondCard] + cardsArray[firstCard] + "s";
         }
     }
+
     /*/////////////////
     // END FUNCTIONS //
     *//////////////////
@@ -614,8 +646,8 @@ $(document).ready(function () {
 
     pageLoad();
 
-    interfaceViewbox.style.gridTemplateColumns = "repeat(7, 1fr)";
-    interfaceViewbox.style.gridTemplateRows = "repeat(9, 1fr)"
+    //interfaceViewbox.style.gridTemplateColumns = "repeat(7, 1fr)";
+    //interfaceViewbox.style.gridTemplateRows = "repeat(9, 1fr)"
 
     createPositionInterface(numOfPlayers);
     createRanges(numOfCards);

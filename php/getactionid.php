@@ -19,13 +19,6 @@
     echo "Connection failed: " . $e->getMessage();
   }
 
-  //$pdo = new PDO('mysql:host=localhost;dbname=ranges', 'root', '');
-
-
-  //$Range = get_user_id($pdo, $user_id, $range_name, $stacksize, $action);
-  //echo json_encode($Range);
-
-
   function get_user_id($pdo, $user_id, $range_name, $stacksize, $action){
     $stmt = $pdo->prepare("SELECT action_id, color FROM range_action WHERE user_id = :user_id  AND range_name = :range_name AND stacksize = :stacksize AND action = :action;");
     $stmt->bindParam(':user_id', $user_id);
